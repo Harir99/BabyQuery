@@ -6,14 +6,21 @@
 
 int main ( int argc, char *argv ) {
 	FILE *f1;
+	FILE *f2;
 	int i = 0;
+	int j=0;
 	char decade[5];
+	char decade2[5];
 	char choice[10];
 	struct pNames popNames;
-    char maleSNumber[20];
-    char femaleSNumber[20];
+	struct pNames2 popNames2;
+	char maleSNumber[20];
+    char maleSNumber2[20];
+	char femaleSNumber[20];
+    char femaleSNumber2[20];
     char string[100];
 	char year[5];
+	char year2[5];
 	int yearLoop = 1;
 	int decadeLoop = 1;
 	char choice1[10];
@@ -22,16 +29,20 @@ int main ( int argc, char *argv ) {
 	char anotheryear[5];
 	char decadefile[5];
 	int yearInt;
+	int yearInt2;
 	int valid = 0;
 
 
 	while ( decadeLoop == 1){
-	  	printf("What decade do you want to look at? [1880 to 2010] ");
-		scanf("%s",decade);
+	  	printf("What 2 decades do you want to look at? [1880 to 2010] ");
+		scanf("%s %s",decade, decade2);
 		strcpy(year,decade);
+		strcpy(year2,decade2);
 		yearInt = atoi(year);
+		yearInt2 = atoi(year2);
 		yearLoop = 1;
 		i = 0;
+		j=0;
 
 		if ( yearInt > 1879 && yearInt < 2011 && (yearInt % 10) == 0){
 			strcat (decade, "Names.txt");
@@ -42,15 +53,34 @@ int main ( int argc, char *argv ) {
 	   				 removeCommas ( femaleSNumber );
 	   				 popNames.maleNumber[i] = atoi ( maleSNumber );
 	   				 popNames.femaleNumber[i] = atoi ( femaleSNumber );
+
 	   				 i++;
 	   		      	}
-	   		}else {
+			}
+			else {
 	   			 printf ( "Cannot open %s\n", decade);
+	   			 return ( -2);
+			}
+		}
+		if ( yearInt2 > 1879 && yearInt2 < 2011 && (yearInt2 % 10) == 0){
+			strcat (decade2, "Names.txt");
+				if ( (f2 = fopen(decade2, "r")) != NULL ) {
+	   			 while ( fgets(string, 100, f2) != NULL ) {
+	   				 sscanf (string, "%d %s %s %s %s", &popNames2.rank[j], popNames2.maleName2[j], maleSNumber2, popNames2.femaleName2[j], femaleSNumber2);
+	   				 removeCommas ( maleSNumber2 );
+	   				 removeCommas ( femaleSNumber2 );
+	   				 popNames2.maleNumber2[j] = atoi ( maleSNumber2 );
+	   				 popNames2.femaleNumber2[j] = atoi ( femaleSNumber2 );
+
+	   				 j++;
+	   		      	}
+	   		} if (( yearInt2 < 1879 && yearInt2 > 2011 && (yearInt2 % 10) != 0) || ( yearInt < 1879 && yearInt > 2011 && (yearInt % 10) != 0) )  {
+	   			 printf ( "Cannot open %s\n", decade2);
 	   			 return ( -2 );
 	   		}
 		}
 
-		else{
+		else {
 			printf("Acceptable decades are 1880, 1890, 1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, or 2010. No other numbers are acceptable\n");
 			yearLoop = 0;
 		}
@@ -91,12 +121,15 @@ int main ( int argc, char *argv ) {
 
 							if (gender == 0){
 								printf("Rank %d: Male: %s (%d)\n",rank,popNames.maleName[rank-1],popNames.maleNumber[rank-1]);
+								printf("Rank %d: Male: %s (%d)\n",rank,popNames2.maleName2[rank-1],popNames2.maleNumber2[rank-1]);
 							}
 							if (gender == 1){
 								printf("Rank %d: Female: %s (%d)\n",rank,popNames.femaleName[rank-1],popNames.femaleNumber[rank-1]);
+								printf("Rank %d: Female: %s (%d)\n",rank,popNames2.femaleName2[rank-1],popNames2.femaleNumber2[rank-1]);
 							}
 							if (gender == 2){
 								printf("Rank %d: Male: %s (%d) and Female: %s (%d)\n",rank,popNames.maleName[rank-1],popNames.maleNumber[rank-1],popNames.femaleName[rank-1],popNames.femaleNumber[rank-1] );
+								printf("Rank %d: Male: %s (%d) and Female: %s (%d)\n",rank,popNames2.maleName2[rank-1],popNames2.maleNumber2[rank-1],popNames2.femaleName2[rank-1],popNames2.femaleNumber2[rank-1] );
 							}
 						}
 
@@ -112,12 +145,14 @@ int main ( int argc, char *argv ) {
 					int j;
 					int gender;
 					int maleFound = 0;
+					int maleFound2 = 0;
 					int femaleFound = 0;
+					int femaleFound2 = 0;
 
 					printf("What name do you want to search for? [case sensitive] ");
 					scanf("%s", name);
 
-					printf("Do you wish to search male (0), female (1), or both (2) name(s)? [0-2] ");
+					printf("Do you wish to search male (0), female (1), or both (2) name(s)? [0-2]  ");
 					scanf("%d", &gender);
 
 					if (gender >= 0 || gender <= 2) {
@@ -127,9 +162,17 @@ int main ( int argc, char *argv ) {
 									printf("In %s, the male name %s is ranked %d with a count of %d \n", year, name,j+1, popNames.maleNumber[j]);
 									maleFound = 1;
 								}
+								if (strcmp(name, popNames2.maleName2[j]) == 0){
+									printf("In %s, the male name %s is ranked %d with a count of %d \n", year2, name,j+1, popNames2.maleNumber2[j]);
+									maleFound2 = 1;
+								}
 							}
 							if (maleFound == 0) {
-								printf("In %s, the male name %s was not ranked", year, name);
+								printf("In %s, the male name %s was not ranked\n", year, name);
+							}
+							if (maleFound2 == 0) {
+								printf("In %s, the male name %s was not ranked\n", year2, name);
+
 							}
 						}
 						if (gender == 1){
@@ -138,9 +181,17 @@ int main ( int argc, char *argv ) {
 									printf("In %s, the female name %s is ranked %d with a count of %d \n", year, name,j+1, popNames.femaleNumber[j]);
 									femaleFound = 1;
 								}
+								if (strcmp(name, popNames2.femaleName2[j]) == 0){
+									printf("In %s, the female name %s is ranked %d with a count of %d \n", year2, name,j+1, popNames2.femaleNumber2[j]);
+									femaleFound2 = 1;
+								}
 							}
 							if (femaleFound == 0) {
 								printf("In %s, the female name %s was not ranked\n", year, name);
+							}
+							if (femaleFound2 == 0) {
+								printf("In %s, the female name %s was not ranked\n", year2, name);
+
 							}
 
 						}
@@ -149,39 +200,75 @@ int main ( int argc, char *argv ) {
 						if (gender == 2){
 							int maleNum;
 							int femaleNum;
+							int maleNum2;
+							int femaleNum2;
 							int maleRank;
+							int maleRank2;
 							int femaleRank;
+							int femaleRank2;
 
 							for (j=0; j < 200; j++) {
 								if (strcmp(name, popNames.maleName[j]) == 0){
 									maleFound = 1;
 									maleNum = popNames.maleNumber[j];
 									maleRank = j+1;
+
 								}
 
 								if (strcmp(name, popNames.femaleName[j]) == 0){
 									femaleFound = 1;
-									femaleNum = popNames.femaleNumber[j];
+									femaleNum2 = popNames.femaleNumber[j];
 									femaleRank = j+1;
+
+								}
+								if (strcmp(name, popNames2.maleName2[j]) == 0){
+									maleFound2 = 1;
+									maleNum2 = popNames2.maleNumber2[j];
+									maleRank2 = j+1;
+								}
+
+								if (strcmp(name, popNames2.femaleName2[j]) == 0){
+									femaleFound2 = 1;
+									femaleNum = popNames2.femaleNumber2[j];
+									femaleRank2 = j+1;
 
 								}
 
 							}
 
-							if ( maleFound == 1 && femaleFound == 0) {
+							if ( (maleFound == 1 && femaleFound == 0) && (maleFound2 == 1 && femaleFound2 == 0) ) {
 								printf("In %s, the male name %s is ranked %d with a count of %d and the female name %s is not ranked\n", year, name,maleRank, maleNum,name);
+								printf("In %s, the male name %s is ranked %d with a count of %d and the female name %s is not ranked\n", year2, name,maleRank2, maleNum2,name);
+
 							}
 
-							if ( femaleFound == 1 && maleFound == 0) {
+							if ( (femaleFound == 1 && maleFound == 0) &&  (femaleFound2 == 1 && maleFound2 == 0) ){
 								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is not ranked \n", year, name,femaleRank, femaleNum, name);
+								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is not ranked\n", year2, name,femaleRank2, femaleNum2,name);
+
 							}
 
-							if ( femaleFound == 1 && maleFound == 1) {
+							if ( (femaleFound == 1 && maleFound == 1)&&  (femaleFound2 == 1 && maleFound2 == 1)) {
 								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is ranked %d with a count of %d \n", year, name,femaleRank, femaleNum, name, maleRank,maleNum);
+								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is ranked %d with a count of %d \n", year2, name,femaleRank2, femaleNum2, name, maleRank,maleNum2);
+
 							}
 
-							if ( femaleFound == 0 && maleFound == 0) {
+							if ( (femaleFound == 0 && maleFound == 0) && ( femaleFound2 == 0 && maleFound2 == 0)){
 								printf("In %s, the female name %s is not ranked and the male name %s is not ranked \n", year, name, name);
+								printf("In %s, the female name %s is not ranked and the male name %s is not ranked \n", year2, name, name);
+
+							}
+
+							if ( (femaleFound == 1 && maleFound == 0) && ( femaleFound2 == 0 && maleFound2 == 1)){
+								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is not ranked \n", year, name,femaleRank, femaleNum, name);
+								printf("In %s, the female name %s is not ranked and the male name %s is ranked %d with a count of %d \n", year2, name,maleRank2, maleNum2, name);
+
+							}
+							if ( (femaleFound == 0 && maleFound == 1) && ( femaleFound2 == 1 && maleFound2 == 0)){
+								printf("In %s, the female name %s is not ranked and the male name %s is ranked %d with a count of %d \n", year2, name,maleRank2, maleNum2, name);
+								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is not ranked \n", year, name,femaleRank, femaleNum, name);
+
 							}
 
 						}
@@ -194,28 +281,87 @@ int main ( int argc, char *argv ) {
 					valid = 1;
 
 				}
-				else if (strcmp (choice, "top") == 0) {
+				/*else if (strcmp (choice, "top") == 0) {
 					int k;
 					int rank;
 					int maleNum;
 					int femaleNum;
+					int maleNum2;
+					int femaleNum2;
+					char femaleMatch[50];
+					char maleMatch[50];
+					int Matching = 0;
 
 					for (k = 0; k < 10; k++){
-						maleNum = popNames.maleNumber[k];
-						femaleNum = popNames.femaleNumber[k];
-						rank = k+1;
+						for (j =0; j < 10; j++){
+					while ( Matching == 0) {
+							k = 0;
+							maleNum = popNames.maleNumber[k];
+							femaleNum = popNames.femaleNumber[k];
+							rank = k+1;
+							k++;
+
+							j = 0;
+							maleNum2 = popNames2.maleNumber2[j];
+							femaleNum2 = popNames2.femaleNumber2[j];
+							rank = j+1;
+							j++;
+
+
+								if (popNames.maleName[k] == popNames2.maleName2[j]) {
+									strcpy(maleMatch,popNames.maleName[j]);
+									printf("Male names that appear in both %s and %s  Top Tens: %s ", year, year2, maleMatch);
+								}
+								if (popNames.femaleName[k] == popNames2.femaleName2[j]) {
+									strcpy(femaleMatch,popNames.femaleName[j]);
+									printf("Male names that appear in both %s and %s Top Tens: %s ", year, year2, femaleMatch );
+								}
+							if (k > 11 && j < 11) {
+								Matching = 1;
+						}
 
 
 						printf("%-2d %-12s %-8d %-12s %d \n", rank, popNames.maleName[k], maleNum,popNames.femaleName[k], femaleNum);
+						printf("%-2d %-12s %-8d %-12s %d \n", rank, popNames2.maleName2[k], maleNum2,popNames2.femaleName2[k], femaleNum2);
+
+
 					}
 					valid = 1;
+					}
 
-				}
-				else {
+				} else {
 					printf("Please type in rank, search, or top exactly as requested.\n ");
 				}
-			}
+			}*/
+			else if (strcmp (choice, "top") == 0) {
+				int k;
+				int rank;
+				int maleNum;
+				int femaleNum;
+				int maleNum2;
+				int femaleNum2;
+				int matching;
 
+				for (k = 0; k < 10; k++){
+					maleNum = popNames.maleNumber[k];
+					femaleNum = popNames.femaleNumber[k];
+					maleNum2 = popNames2.maleNumber2[k];
+					femaleNum2 = popNames2.femaleNumber2[k];
+					rank = k+1;
+
+				matching = 
+
+
+
+
+				}
+				valid = 1;
+
+			}
+			else {
+				printf("Please type in rank, search, or top exactly as requested.\n ");
+			}
+		}
 
 
 

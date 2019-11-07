@@ -4,7 +4,7 @@
 
 #include "babies.h"
 
-int main ( int argc, char *argv ) {
+int main ( int argc, char *argv[] ) {
 	FILE *f1;
 	FILE *f2;
 	int i = 0;
@@ -24,10 +24,7 @@ int main ( int argc, char *argv ) {
 	int yearLoop = 1;
 	int decadeLoop = 1;
 	char choice1[10];
-	char choice2[10];
-	char answer[5];
 	char anotheryear[5];
-	char decadefile[5];
 	int yearInt;
 	int yearInt2;
 	int valid = 0;
@@ -81,8 +78,8 @@ int main ( int argc, char *argv ) {
 		}
 
 		else {
-			printf("Acceptable decades are 1880, 1890, 1900, 1910, 1920, 1930, 1940, 1950, 1960, 1970, 1980, 1990, 2000, or 2010. No other numbers are acceptable\n");
-			yearLoop = 0;
+			printf("Acceptable decades are 1880, 1890, 1900, 1910, 1920, 1930, 1940, 1950, 1960,1970, 1980, 1990, 2000, or 2010. No other numbers are acceptable. You must enter 2 acceptable decades separated by a least one space\n");
+
 		}
 
 
@@ -262,11 +259,11 @@ int main ( int argc, char *argv ) {
 
 							if ( (femaleFound == 1 && maleFound == 0) && ( femaleFound2 == 0 && maleFound2 == 1)){
 								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is not ranked \n", year, name,femaleRank, femaleNum, name);
-								printf("In %s, the female name %s is not ranked and the male name %s is ranked %d with a count of %d \n", year2, name,maleRank2, maleNum2, name);
+								printf("In %s, the female name %s is not ranked and the male name %s is ranked %d with a count of %d \n", year2, name,name,maleRank2, maleNum2);
 
 							}
 							if ( (femaleFound == 0 && maleFound == 1) && ( femaleFound2 == 1 && maleFound2 == 0)){
-								printf("In %s, the female name %s is not ranked and the male name %s is ranked %d with a count of %d \n", year2, name,maleRank2, maleNum2, name);
+								printf("In %s, the female name %s is not ranked and the male name %s is ranked %d with a count of %d \n", year2, name, name, maleRank2, maleNum2);
 								printf("In %s, the female name %s is ranked %d with a count of %d and the male name %s is not ranked \n", year, name,femaleRank, femaleNum, name);
 
 							}
@@ -281,80 +278,46 @@ int main ( int argc, char *argv ) {
 					valid = 1;
 
 				}
-				/*else if (strcmp (choice, "top") == 0) {
-					int k;
-					int rank;
-					int maleNum;
-					int femaleNum;
-					int maleNum2;
-					int femaleNum2;
-					char femaleMatch[50];
-					char maleMatch[50];
-					int Matching = 0;
 
-					for (k = 0; k < 10; k++){
-						for (j =0; j < 10; j++){
-					while ( Matching == 0) {
-							k = 0;
-							maleNum = popNames.maleNumber[k];
-							femaleNum = popNames.femaleNumber[k];
-							rank = k+1;
-							k++;
+			else if (strcmp (choice, "top") == 0) {
+				int k;
+				int l;
+				int q;
 
-							j = 0;
-							maleNum2 = popNames2.maleNumber2[j];
-							femaleNum2 = popNames2.femaleNumber2[j];
-							rank = j+1;
-							j++;
+				int numMatches = 0;
+				int y1matches [10];
 
+				int numFMatches = 0;
+				int y1Fmatches[10];
+				/*int y2matches[10];*/
 
-								if (popNames.maleName[k] == popNames2.maleName2[j]) {
-									strcpy(maleMatch,popNames.maleName[j]);
-									printf("Male names that appear in both %s and %s  Top Tens: %s ", year, year2, maleMatch);
-								}
-								if (popNames.femaleName[k] == popNames2.femaleName2[j]) {
-									strcpy(femaleMatch,popNames.femaleName[j]);
-									printf("Male names that appear in both %s and %s Top Tens: %s ", year, year2, femaleMatch );
-								}
-							if (k > 11 && j < 11) {
-								Matching = 1;
+				for (k = 0; k < 10; k++){
+					for(l = 0; l< 10; l++){
+
+						if (strcmp(popNames.maleName[k], popNames2.maleName2[l]) == 0) {
+							y1matches[numMatches] = k;
+							numMatches++;
+						}
+						if (strcmp(popNames.femaleName[k], popNames2.femaleName2[l]) == 0) {
+							y1Fmatches[numFMatches] = k;
+							numFMatches++;
 						}
 
 
-						printf("%-2d %-12s %-8d %-12s %d \n", rank, popNames.maleName[k], maleNum,popNames.femaleName[k], femaleNum);
-						printf("%-2d %-12s %-8d %-12s %d \n", rank, popNames2.maleName2[k], maleNum2,popNames2.femaleName2[k], femaleNum2);
-
-
 					}
-					valid = 1;
-					}
-
-				} else {
-					printf("Please type in rank, search, or top exactly as requested.\n ");
 				}
-			}*/
-			else if (strcmp (choice, "top") == 0) {
-				int k;
-				int rank;
-				int maleNum;
-				int femaleNum;
-				int maleNum2;
-				int femaleNum2;
-				int matching;
 
-				for (k = 0; k < 10; k++){
-					maleNum = popNames.maleNumber[k];
-					femaleNum = popNames.femaleNumber[k];
-					maleNum2 = popNames2.maleNumber2[k];
-					femaleNum2 = popNames2.femaleNumber2[k];
-					rank = k+1;
-
-				matching = 
-
-
-
-
+				printf("Male names that appear in both %s and %s top tens: ", year, year2);
+				for (q = 0; q < numMatches; q++) {
+					printf("%s ", popNames.maleName[y1matches[q]]);
 				}
+				printf("\n" );
+
+				printf("female names that appear in both %s and %s top tens: ", year, year2);
+				for (q = 0; q < numFMatches; q++) {
+					printf("%s ", popNames.femaleName[y1Fmatches[q]]);
+				}
+				printf("\n" );
 				valid = 1;
 
 			}
@@ -368,7 +331,7 @@ int main ( int argc, char *argv ) {
 			valid = 0;
 			while ( valid == 0){
 				printf("Do you want to ask another question about %s? [Y or N] ", year);
-				scanf("%s",&choice1);
+				scanf("%s",choice1);
 				if (strcmp(choice1,"n") == 0 || strcmp(choice1,"N") == 0) {
 					decadeLoop = 0;
 					valid = 1;
@@ -390,7 +353,7 @@ int main ( int argc, char *argv ) {
 			valid = 0;
 			while ( valid == 0){
 				printf("Would you like to select another year? [Y or N] ");
-				scanf("%s",&anotheryear);
+				scanf("%s",anotheryear);
 				if (strcmp(anotheryear,"n") == 0 || strcmp(anotheryear,"N") == 0) {
 					decadeLoop = 0;
 					valid = 1;
@@ -408,26 +371,6 @@ int main ( int argc, char *argv ) {
 
 	}
 		printf("Thank you for using babyQuery\n");
-}
-int removeCommas ( char *commaStr ) {
 
-	int length = 0;
-	int i;
-	int numCommas = 0;
-
-	length = strlen (commaStr);
-
-	for ( i = 0; i < length; i++) {
-		if ( commaStr[i] == ',') {
-			numCommas ++;
-			commaStr[i] = commaStr[i + numCommas];
-		}
-
-		else {
-			commaStr[i] = commaStr[i + numCommas];
-		}
-	}
-
-	return numCommas;
-
+		return 0;
 }

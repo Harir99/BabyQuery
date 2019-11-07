@@ -4,7 +4,7 @@
 
 #include "babies.h"
 
-int main ( int argc, char *argv ) {
+int main ( int argc, char *argv[] ) {
 	FILE *f1;
 	int i = 0;
 	char decade[5];
@@ -17,10 +17,7 @@ int main ( int argc, char *argv ) {
 	int yearLoop = 1;
 	int decadeLoop = 1;
 	char choice1[10];
-	char choice2[10];
-	char answer[5];
 	char anotheryear[5];
-	char decadefile[5];
 	int yearInt;
 	int valid = 0;
 
@@ -222,7 +219,7 @@ int main ( int argc, char *argv ) {
 			valid = 0;
 			while ( valid == 0){
 				printf("Do you want to ask another question about %s? [Y or N] ", year);
-				scanf("%s",&choice1);
+				scanf("%s",choice1);
 				if (strcmp(choice1,"n") == 0 || strcmp(choice1,"N") == 0) {
 					decadeLoop = 0;
 					valid = 1;
@@ -244,7 +241,7 @@ int main ( int argc, char *argv ) {
 			valid = 0;
 			while ( valid == 0){
 				printf("Would you like to select another year? [Y or N] ");
-				scanf("%s",&anotheryear);
+				scanf("%s",anotheryear);
 				if (strcmp(anotheryear,"n") == 0 || strcmp(anotheryear,"N") == 0) {
 					decadeLoop = 0;
 					valid = 1;
@@ -262,26 +259,6 @@ int main ( int argc, char *argv ) {
 
 	}
 		printf("Thank you for using babyQuery\n");
-}
-int removeCommas ( char *commaStr ) {
 
-	int length = 0;
-	int i;
-	int numCommas = 0;
-
-	length = strlen (commaStr);
-
-	for ( i = 0; i < length; i++) {
-		if ( commaStr[i] == ',') {
-			numCommas ++;
-			commaStr[i] = commaStr[i + numCommas];
-		}
-
-		else {
-			commaStr[i] = commaStr[i + numCommas];
-		}
-	}
-
-	return numCommas;
-
+		return 0;
 }

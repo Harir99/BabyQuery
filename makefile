@@ -1,4 +1,5 @@
 
+
 all: babiesQuery.o babiesQuery babyQuery.o babyQuery
 
 babiesQuery.o: babiesQuery.c

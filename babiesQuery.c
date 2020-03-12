@@ -15,10 +15,10 @@ int main ( int argc, char *argv[] ) {
 	struct pNames popNames;
 	struct pNames2 popNames2;
 	char maleSNumber[20];
-    char maleSNumber2[20];
+    	char maleSNumber2[20];
 	char femaleSNumber[20];
-    char femaleSNumber2[20];
-    char string[100];
+   	 char femaleSNumber2[20];
+	char string[100];
 	char year[5];
 	char year2[5];
 	int yearLoop = 1;
@@ -31,56 +31,59 @@ int main ( int argc, char *argv[] ) {
 
 
 	while ( decadeLoop == 1){
-	  	printf("What 2 decades do you want to look at? [1880 to 2010] ");
-		scanf("%s %s",decade, decade2);
-		strcpy(year,decade);
-		strcpy(year2,decade2);
-		yearInt = atoi(year);
-		yearInt2 = atoi(year2);
-		yearLoop = 1;
-		i = 0;
-		j=0;
 
-		if ( yearInt > 1879 && yearInt < 2011 && (yearInt % 10) == 0){
-			strcat (decade, "Names.txt");
-				if ( (f1 = fopen(decade, "r")) != NULL ) {
-	   			 while ( fgets(string, 100, f1) != NULL ) {
-	   				 sscanf (string, "%d %s %s %s %s", &popNames.rank[i], popNames.maleName[i], maleSNumber, popNames.femaleName[i], femaleSNumber);
-	   				 removeCommas ( maleSNumber );
-	   				 removeCommas ( femaleSNumber );
-	   				 popNames.maleNumber[i] = atoi ( maleSNumber );
-	   				 popNames.femaleNumber[i] = atoi ( femaleSNumber );
+		  	printf("What 2 decades do you want to look at? [1880 to 2010] ");
+			scanf("%s %s",decade, decade2);
+			strcpy(year,decade);
+			strcpy(year2,decade2);
+			yearInt = atoi(year);
+			yearInt2 = atoi(year2);
+			yearLoop = 1;
+			i = 0;
+			j=0;
 
-	   				 i++;
-	   		      	}
+
+
+			if ( yearInt > 1879 && yearInt < 2011 && (yearInt % 10) == 0){
+				strcat (decade, "Names.txt");
+					if ( (f1 = fopen(decade, "r")) != NULL ) {
+		   			 while ( fgets(string, 100, f1) != NULL ) {
+		   				 sscanf (string, "%d %s %s %s %s", &popNames.rank[i], popNames.maleName[i], maleSNumber, popNames.femaleName[i], femaleSNumber);
+		   				 removeCommas ( maleSNumber );
+		   				 removeCommas ( femaleSNumber );
+		   				 popNames.maleNumber[i] = atoi ( maleSNumber );
+		   				 popNames.femaleNumber[i] = atoi ( femaleSNumber );
+
+		   				 i++;
+		   		      	}
+				}
+				else {
+		   			 printf ( "Cannot open %s\n", decade);
+		   			 return ( -2);
+				}
 			}
+			if ( yearInt2 > 1879 && yearInt2 < 2011 && (yearInt2 % 10) == 0){
+				strcat (decade2, "Names.txt");
+					if ( (f2 = fopen(decade2, "r")) != NULL ) {
+		   			 while ( fgets(string, 100, f2) != NULL ) {
+		   				 sscanf (string, "%d %s %s %s %s", &popNames2.rank[j], popNames2.maleName2[j], maleSNumber2, popNames2.femaleName2[j], femaleSNumber2);
+		   				 removeCommas ( maleSNumber2 );
+		   				 removeCommas ( femaleSNumber2 );
+		   				 popNames2.maleNumber2[j] = atoi ( maleSNumber2 );
+		   				 popNames2.femaleNumber2[j] = atoi ( femaleSNumber2 );
+
+		   				 j++;
+		   		      	}
+		   		} if (( yearInt2 < 1879 && yearInt2 > 2011 && (yearInt2 % 10) != 0) || ( yearInt < 1879 && yearInt > 2011 && (yearInt % 10) != 0) )  {
+		   			 printf ( "Cannot open %s\n", decade2);
+		   			 return ( -2 );
+		   		}
+			}
+
 			else {
-	   			 printf ( "Cannot open %s\n", decade);
-	   			 return ( -2);
+				printf("Acceptable decades are 1880, 1890, 1900, 1910, 1920, 1930, 1940, 1950, 1960,1970, 1980, 1990, 2000, or 2010. No other numbers are acceptable. You must enter 2 acceptable decades separated by a least one space\n");
+
 			}
-		}
-		if ( yearInt2 > 1879 && yearInt2 < 2011 && (yearInt2 % 10) == 0){
-			strcat (decade2, "Names.txt");
-				if ( (f2 = fopen(decade2, "r")) != NULL ) {
-	   			 while ( fgets(string, 100, f2) != NULL ) {
-	   				 sscanf (string, "%d %s %s %s %s", &popNames2.rank[j], popNames2.maleName2[j], maleSNumber2, popNames2.femaleName2[j], femaleSNumber2);
-	   				 removeCommas ( maleSNumber2 );
-	   				 removeCommas ( femaleSNumber2 );
-	   				 popNames2.maleNumber2[j] = atoi ( maleSNumber2 );
-	   				 popNames2.femaleNumber2[j] = atoi ( femaleSNumber2 );
-
-	   				 j++;
-	   		      	}
-	   		} if (( yearInt2 < 1879 && yearInt2 > 2011 && (yearInt2 % 10) != 0) || ( yearInt < 1879 && yearInt > 2011 && (yearInt % 10) != 0) )  {
-	   			 printf ( "Cannot open %s\n", decade2);
-	   			 return ( -2 );
-	   		}
-		}
-
-		else {
-			printf("Acceptable decades are 1880, 1890, 1900, 1910, 1920, 1930, 1940, 1950, 1960,1970, 1980, 1990, 2000, or 2010. No other numbers are acceptable. You must enter 2 acceptable decades separated by a least one space\n");
-
-		}
 
 
 
@@ -289,7 +292,6 @@ int main ( int argc, char *argv[] ) {
 
 				int numFMatches = 0;
 				int y1Fmatches[10];
-				/*int y2matches[10];*/
 
 				for (k = 0; k < 10; k++){
 					for(l = 0; l< 10; l++){
@@ -322,7 +324,7 @@ int main ( int argc, char *argv[] ) {
 
 			}
 			else {
-				printf("Please type in rank, search, or top exactly as requested.\n ");
+				printf("Please type in rank, search, or top exactly as requested\n ");
 			}
 		}
 
@@ -366,11 +368,8 @@ int main ( int argc, char *argv[] ) {
 				}
 
 
-			}
+		}
+}
 
-
-	}
-		printf("Thank you for using babyQuery\n");
-
-		return 0;
+return 0;
 }
